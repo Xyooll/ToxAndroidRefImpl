@@ -22,9 +22,12 @@ gradle.write_text(body, encoding="utf-8")
 text = manifest.read_text(encoding="utf-8")
 if 'android:label="TRIfA"' in text:
     text = text.replace('android:label="TRIfA"',
-                        'android:label="Xyool Connect (Tox)"', 1)
-elif 'android:label="Xyool Connect (Tox)"' not in text:
-    raise SystemExit("Cannot find expected upstream launcher label")
+                        'android:label="@string/app_name"', 1)
+elif 'android:label="Xyool Connect (Tox)"' in text:
+    text = text.replace('android:label="Xyool Connect (Tox)"',
+                        'android:label="@string/app_name"', 1)
+elif 'android:label="@string/app_name"' not in text:
+    raise SystemExit("Cannot find expected upstream or Xyool launcher label")
 manifest.write_text(text, encoding="utf-8")
 
 # The Java namespace stays upstream-compatible. These three authorities must be
