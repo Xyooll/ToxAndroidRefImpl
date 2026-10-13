@@ -108,7 +108,7 @@ def main():
     names = {x.get("name"): (x.text or "") for x in strings if x.tag == "string"}
     require(names.get("app_name") == "Xyool Connect", "coherent Xyool app name")
     require("Tox" in names.get("Aboutpage_5a", ""), "upstream Tox compatibility attribution")
-    require("peer ID" in names.get("add_friend_activity_help", "").lower(),
+    require("peer id" in names.get("add_friend_activity_help", "").lower(),
             "contact onboarding explains native peer ID")
     print("PASS: assembled Xyool Connect app source integration checks")
     print("NOT RUN: actual Android runtime, network traversal, calls or push/sleep behavior")
