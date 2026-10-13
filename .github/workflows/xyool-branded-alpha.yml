@@ -1,0 +1,65 @@
+name: Xyool Tox Branded Alpha
+
+on:
+  push:
+    branches:
+      - 'xyool/tox-branded-alpha-*'
+    paths:
+      - 'xyool/**'
+      - '.github/workflows/xyool-branded-alpha.yml'
+      - 'android-refimpl-app/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-xyool-tox-alpha:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - name: Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Configure Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Install upstream Android SDK and NDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -path '*/bin/sdkmanager' | sort -V | tail -1)"
+          test -n "$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+          "$SDKMANAGER" --install 'platforms;android-34' 'build-tools;34.0.0' 'ndk;20.1.5948944'
+      - name: Rebrand isolated build tree, preserve toxcore and ToxAV
+        shell: bash
+        run: bash xyool/brand-alpha.sh
+      - name: Build Android Xyool Connect native-alpha APK
+        working-directory: android-refimpl-app
+        run: |
+          chmod +x gradlew
+          ./gradlew :app:assembleDebug --no-daemon --stacktrace
+      - name: Verify Xyool package, provider authorities and native calling
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK=android-refimpl-app/app/build/outputs/apk/debug/app-debug.apk
+          test -s "$APK"
+          "$ANDROID_HOME/build-tools/34.0.0/aapt" dump badging "$APK" | grep -F "org.xyool.connect.tox"
+          for authority in std_fileprovider ext2_provider ext1_fileprovider; do
+            "$ANDROID_HOME/build-tools/34.0.0/aapt" dump xmltree "$APK" AndroidManifest.xml | grep -F "org.xyool.connect.tox.$authority"
+          done
+          unzip -Z1 "$APK" | grep -E '^lib/arm64-v8a/libjni-c-toxcore.so$'
+          unzip -Z1 "$APK" | grep -E '^lib/arm64-v8a/libnative-audio-jni.so$'
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --verbose "$APK"
+          echo "Xyool-branded Tox native alpha APK verified."
+      - name: Upload native alpha APK for two-phone test
+        uses: actions/upload-artifact@v4
+        with:
+          name: Xyool-Connect-Tox-Native-Alpha
+          path: android-refimpl-app/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 14
+          if-no-files-found: error
