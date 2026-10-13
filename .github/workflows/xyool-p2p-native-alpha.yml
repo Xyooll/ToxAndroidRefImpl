@@ -5,6 +5,7 @@ on:
     branches:
       - 'xyool/tox-p2p-only-*'
       - 'xyool/tox-connect-rebrand-*'
+      - 'xyool/connect-integrated-alpha-*'
   pull_request:
     paths:
       - 'android-refimpl-app/**'
@@ -47,7 +48,8 @@ jobs:
           python3 xyool/p2p-only.py
           python3 xyool/p2p-only.py --verify
           python3 xyool/verify-brand.py
-      - name: Assemble native Tox encrypted calls and messaging
+          python3 xyool/verify-integration.py
+      - name: Assemble native Tox encrypted calls, contacts, messaging and files
         working-directory: android-refimpl-app
         run: |
           chmod +x gradlew
