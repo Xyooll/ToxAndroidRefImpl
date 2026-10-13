@@ -12,8 +12,8 @@ def main():
     application = manifest.find("application")
     assert application is not None
     assert application.attrib[A + "label"] == "@string/app_name"
-    assert application.attrib[A + "icon"] == "@drawable/xyool_connect_mark"
-    assert application.attrib[A + "roundIcon"] == "@drawable/xyool_connect_mark"
+    assert application.attrib[A + "icon"] == "@mipmap/xyool_launcher"
+    assert application.attrib[A + "roundIcon"] == "@mipmap/xyool_launcher"
 
     strings = ET.parse(BASE / "res/values/strings.xml").getroot()
     values = {x.attrib.get("name"): (x.text or "") for x in strings if x.tag == "string"}
@@ -33,6 +33,12 @@ def main():
     assert mark.tag == "vector", "Keep Xyool launcher mark vector"
     assert len(mark.findall("path")) >= 4
     assert len(mark.findall("group")) >= 1
+
+    legacy_icon = ET.parse(BASE / "res/mipmap-anydpi/xyool_launcher.xml").getroot()
+    adaptive = ET.parse(BASE / "res/mipmap-anydpi-v26/xyool_launcher.xml").getroot()
+    assert legacy_icon.tag == "vector"
+    assert adaptive.tag == "adaptive-icon"
+    assert adaptive.find("foreground").attrib[A + "drawable"] == "@drawable/xyool_connect_mark"
 
     screen = ET.parse(BASE / "res/layout/activity_main.xml").getroot()
     image = screen.find(".//ImageView/..")  # structural XML parsing sanity
