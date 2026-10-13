@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#12334A</color>
+    <color name="colorPrimaryDark">#081825</color>
+    <color name="colorAccent">#14B8A6</color>
 
     <color name="black_overlay">#66000000</color>
 
@@ -12,12 +12,12 @@
     <color name="textblock_link_color_for_orange">@android:color/holo_blue_dark</color>
     <color name="textblock_link_color_for_red">@android:color/holo_blue_bright</color>
 
-    <color name="date_bg_color">#EE3F51B5</color>
-    <color name="fast_scroller_color">#3F51B5</color>
+    <color name="date_bg_color">#EE12334A</color>
+    <color name="fast_scroller_color">#14B8A6</color>
     <color name="message_text_date_string_color">#FFFFFF</color>
     <color name="scroll_date_header_color">#FFFFFF</color>
     <color name="message_list_scroll_to_bottom_fab_bg_normal">#9E9E9E</color>
-    <color name="message_list_scroll_to_bottom_fab_bg_new_message">#FF4081</color>
+    <color name="message_list_scroll_to_bottom_fab_bg_new_message">#14B8A6</color>
 
     <color name="md_grey_300_seperator">#E0E0E0</color>
 
@@ -26,7 +26,7 @@
 
     <color name="friend_list_text_color">#8A000000</color>
     <color name="gray">#606060</color>
-    <color name="icon_colors">#303F9F</color>
+    <color name="icon_colors">#12334A</color>
     <color name="text_on_blue_color">#000000</color>
 
     <!--reds-->

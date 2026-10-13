@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - 'xyool/tox-p2p-only-*'
+      - 'xyool/tox-connect-rebrand-*'
+  pull_request:
+    paths:
+      - 'android-refimpl-app/**'
+      - 'xyool/**'
+      - '.github/workflows/xyool-p2p-native-alpha.yml'
   workflow_dispatch:
 
 permissions:
@@ -40,6 +46,7 @@ jobs:
           # Policy must be stable across repeated build invocations.
           python3 xyool/p2p-only.py
           python3 xyool/p2p-only.py --verify
+          python3 xyool/verify-brand.py
       - name: Assemble native Tox encrypted calls and messaging
         working-directory: android-refimpl-app
         run: |
@@ -52,6 +59,8 @@ jobs:
           APK=android-refimpl-app/app/build/outputs/apk/debug/app-debug.apk
           test -s "$APK"
           "$ANDROID_HOME/build-tools/34.0.0/aapt" dump badging "$APK" | grep -F "org.xyool.connect.tox"
+          "$ANDROID_HOME/build-tools/34.0.0/aapt" dump badging "$APK" | grep -F "application-label:'Xyool Connect'"
+          "$ANDROID_HOME/build-tools/34.0.0/aapt" dump resources "$APK" | grep -F "xyool_connect_mark"
           for authority in std_fileprovider ext2_provider ext1_fileprovider; do
             "$ANDROID_HOME/build-tools/34.0.0/aapt" dump xmltree "$APK" AndroidManifest.xml | grep -F "org.xyool.connect.tox.$authority"
           done
