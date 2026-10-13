@@ -59,6 +59,22 @@ def apply() -> None:
                 raise ValueError(f"{filename}: expected one signature {signature.strip()}")
             source = source.replace(signature, guarded, 1)
         file.write_text(source, encoding="utf-8")
+    # Hide nonfunctional legacy push switches and install-this-push-app link.
+    pref = ROOT / "android-refimpl-app/app/src/main/res/xml/pref_general.xml"
+    xml = pref.read_text(encoding="utf-8")
+    for key in ("use_push_service", "download_push_msg_app",
+                "allow_push_server_ntfy", "allow_push_server_sunup"):
+        pattern = re.compile(
+            r'\n\s*<(?:SwitchPreference|Preference)\b[^>]*\bandroid:key="'
+            + re.escape(key) + r'"[^>]*/>', re.S)
+        matches = pattern.findall(xml)
+        if len(matches) == 1:
+            xml = pattern.sub("", xml, count=1)
+        elif len(matches) == 0 and f'android:key="{key}"' not in xml:
+            continue  # already removed on repeated invocation
+        else:
+            raise ValueError(f"Unsafe upstream push setting drift: {key}")
+    pref.write_text(xml, encoding="utf-8")
     verify()
 
 
@@ -70,6 +86,11 @@ def verify() -> None:
     assert 'PREF__allow_push_server_sunup = settings.getBoolean' not in main
     assert 'PREF__hide_setup_push_tip = true;' in main
     assert len(re.findall(r'PREF__use_push_service = false;', main)) >= 5
+    prefs = (ROOT / "android-refimpl-app/app/src/main/res/xml/pref_general.xml").read_text(encoding="utf-8")
+    for key in ("use_push_service", "download_push_msg_app",
+                "allow_push_server_ntfy", "allow_push_server_sunup"):
+        if f'android:key="{key}"' in prefs:
+            raise AssertionError(f"Misleading third-party push preference still visible: {key}")
     for filename, names in {
         "HelperFriend.java": ["send_pushurl_to_friend", "send_pushurl_to_all_friends"],
         "HelperRelay.java": ["own_push_token_load", "send_pushtoken_to_relay"],
