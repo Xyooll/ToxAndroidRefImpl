@@ -849,17 +849,17 @@ public class MainActivity extends AppCompatActivity
 
 
         mt = (TextView) this.findViewById(R.id.main_maintext);
-        mt.setText("...");
+        mt.setText("Starting Xyool Network engine...");
         mt.setVisibility(View.VISIBLE);
         if (native_lib_loaded)
         {
             Log.i(TAG, "M:STARTUP:native_lib_loaded OK");
-            mt.setText("successfully loaded native library");
+            mt.setText("Xyool engine ready");
         }
         else
         {
             Log.i(TAG, "M:STARTUP:native_lib_loaded failed");
-            mt.setText("loadLibrary jni-c-toxcore failed!");
+            mt.setText("Xyool engine unavailable");
             show_wrong_credentials();
             finish();
             return;
@@ -1892,11 +1892,10 @@ public class MainActivity extends AppCompatActivity
         Callstate.my_audio_enabled = 1;
         Callstate.my_video_enabled = 1;
 
+        // Preserve native version details in diagnostics only; a loaded engine
+        // does not mean the network is connected or the peer is reachable.
         String native_api = getNativeLibAPI();
-        mt.setText(mt.getText() + "\n" + native_api);
-        mt.setText(mt.getText() + "\n" + "c-toxcore:v" + tox_version_major() + "." + tox_version_minor() + "." +
-                   tox_version_patch());
-        mt.setText(mt.getText() + ", " + "jni-c-toxcore:v" + jnictoxcore_version());
+        Log.i(TAG, "loaded:native-api=" + native_api);
         Log.i(TAG, "loaded:c-toxcore:v" + tox_version_major() + "." + tox_version_minor() + "." + tox_version_patch());
         Log.i(TAG, "loaded:jni-c-toxcore:v" + jnictoxcore_version());
         Log.i(TAG, "loaded:libavutil:v" + libavutil_version());

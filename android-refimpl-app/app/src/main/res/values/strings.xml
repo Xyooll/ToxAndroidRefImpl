@@ -363,8 +363,7 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="pref_title_sound">Sound</string>
-    <string name="add_friend_activity_help">Paste friend\'s Tox ID in the text box above or tap the
-    QR code button to scan friend\'s code with a camera.</string>
+    <string name="add_friend_activity_help">Connect to another Xyool peer: paste their peer ID (native Tox address) below, or scan their QR code. Both devices must have internet access; no phone number or central Xyool account is required.</string>
     <string name="add_friend_activity_add">Add Friend</string>
     <string name="add_group_activity_help">Create a new Private (invite only) Group with a given Group Name.</string>
     <string name="add_public_group_activity_help">Create a new Public Group with a given Group Name.</string>
@@ -445,8 +444,8 @@
     <string name="Aboutpage_6">What is Tox?</string>
     <string name="Aboutpage_8">used libraries:</string>
 
-    <string name="AddFriendActivity_3">incorrect ToxID</string>
-    <string name="AddFriendActivity_4">No ToxID</string>
+    <string name="AddFriendActivity_3">Invalid peer ID</string>
+    <string name="AddFriendActivity_4">Peer ID required</string>
 
     <string name="CallingActivity_0">Video Delay:</string>
     <string name="CallingActivity_23">Video Delay:</string>
@@ -467,7 +466,7 @@
     <!-- Layout texts -->
     <!-- Layout texts -->
     <!-- Layout texts -->
-    <string name="layout___toxid">ToxID</string>
+    <string name="layout___toxid">Peer ID (Tox)</string>
     <string name="layout___group_name">Group Name</string>
     <string name="layout___group_id">Group ID</string>
     <string name="layout___scan_qr_code">scan QR Code</string>
