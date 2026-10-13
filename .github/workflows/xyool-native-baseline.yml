@@ -1,0 +1,74 @@
+name: Xyool Tox Native Baseline
+
+# Isolated validation of upstream's original Android project.
+# This workflow does not tag, publish releases, deploy, or change code.
+on:
+  push:
+    branches:
+      - 'xyool/tox-native-baseline-*'
+    paths:
+      - 'android-refimpl-app/**'
+      - '.github/workflows/xyool-native-baseline.yml'
+      - 'XYOOL-MIGRATION.md'
+  pull_request:
+    paths:
+      - 'android-refimpl-app/**'
+      - '.github/workflows/xyool-native-baseline.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-upstream-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - name: Check out upstream-preserving Xyool fork
+        uses: actions/checkout@v4
+
+      - name: Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Configure Gradle without modifying upstream checksums
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Install original Android SDK/NDK versions
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -path '*/bin/sdkmanager' | sort -V | tail -1)"
+          test -n "$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+          "$SDKMANAGER" --install 'platforms;android-34' 'build-tools;34.0.0' 'ndk;20.1.5948944'
+
+      - name: Build original TRIfA Android debug without rebranding
+        working-directory: android-refimpl-app
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x gradlew
+          ./gradlew :app:assembleDebug --no-daemon --stacktrace
+
+      - name: Verify package and native Tox voice libraries are present
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK=android-refimpl-app/app/build/outputs/apk/debug/app-debug.apk
+          test -s "$APK"
+          "$ANDROID_HOME/build-tools/34.0.0/aapt" dump badging "$APK" | grep -F "com.zoffcc.applications.trifa"
+          unzip -Z1 "$APK" | grep -E '^lib/arm64-v8a/libjni-c-toxcore.so$'
+          unzip -Z1 "$APK" | grep -E '^lib/arm64-v8a/libnative-audio-jni.so$'
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --verbose "$APK"
+          echo "Original TRIfA baseline APK built, including ARM64 Tox JNI and native audio."
+          
+      - name: Upload isolated upstream-baseline APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: trifa-upstream-baseline-not-yet-xyool
+          path: android-refimpl-app/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
