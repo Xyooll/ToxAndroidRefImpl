@@ -433,7 +433,7 @@
             android:name=".IOCipherContentProvider"
             android:authorities="com.zoffcc.applications.trifa.ext1_fileprovider"
             android:grantUriPermissions="true"
-            android:exported="true">
+            android:exported="false">
         </provider>
 
     </application>
