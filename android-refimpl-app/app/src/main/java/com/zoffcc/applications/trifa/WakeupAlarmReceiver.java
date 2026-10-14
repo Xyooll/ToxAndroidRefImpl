@@ -32,16 +32,19 @@ import static com.zoffcc.applications.trifa.TrifaToxService.trifa_service_thread
 public class WakeupAlarmReceiver extends BroadcastReceiver
 {
     private static final String TAG = "trifa.WakeupAlrmRcvr";
-    private static PowerManager.WakeLock wakeup_wakelock;
 
     @Override
     public void onReceive(Context context, Intent intent2)
     {
-        if (wakeup_wakelock == null)
+        // Isolate overlapping alarm callbacks so one cannot release another's lock.
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        if (pm == null)
         {
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            wakeup_wakelock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "trifa:trifa_wakeup_lock");
+            Log.w(TAG, "PowerManager unavailable");
+            return;
         }
+        final PowerManager.WakeLock wakeup_wakelock =
+                pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "trifa:trifa_wakeup_lock");
 
         final Thread t = new Thread()
         {
@@ -50,7 +53,7 @@ public class WakeupAlarmReceiver extends BroadcastReceiver
             {
                 if (!wakeup_wakelock.isHeld())
                 {
-                    wakeup_wakelock.acquire();
+                    wakeup_wakelock.acquire(20_000L);
                     Log.i(TAG, "acquiring wakelock");
                     TrifaToxService.write_debug_file("AlarmReceiver_aq_wakelock");
                 }
@@ -88,7 +91,6 @@ public class WakeupAlarmReceiver extends BroadcastReceiver
                     TrifaToxService.write_debug_file("AlarmReceiver_rl_wakelock");
                     wakeup_wakelock.release();
                 }
-                wakeup_wakelock = null;
             }
         };
         t.start();
