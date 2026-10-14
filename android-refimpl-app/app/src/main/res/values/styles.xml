@@ -8,13 +8,16 @@
         <item name="patternViewStyle">@style/PatternView</item>
         <item name="android:actionModeBackground">@color/colorPrimary</item>
         <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowBackground">@color/xyool_surface</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
 
-        <item name="material_drawer_background">@color/md_white_1000</item>
-        <item name="material_drawer_primary_text">@color/md_black_1000</item>
-        <item name="material_drawer_primary_icon">@color/gray</item>
+        <item name="material_drawer_background">@color/xyool_surface</item>
+        <item name="material_drawer_primary_text">@color/xyool_text_primary</item>
+        <item name="material_drawer_primary_icon">@color/xyool_text_secondary</item>
 
-        <item name="android:textColorPrimary">@android:color/black</item>
-        <item name="android:textColorSecondary">@color/gray</item>
+        <item name="android:textColorPrimary">@color/xyool_text_primary</item>
+        <item name="android:textColorSecondary">@color/xyool_text_secondary</item>
 
     </style>
 
