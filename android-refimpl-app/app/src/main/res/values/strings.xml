@@ -441,7 +441,7 @@
     <string name="Aboutpage_4">reading crash info ...</string>
     <string name="Aboutpage_5a">Xyool Connect - peer-to-peer communication powered by Tox (TRIfA fork)</string>
     <string name="Aboutpage_5b">Version:</string>
-    <string name="Aboutpage_6">What is Tox?</string>
+    <string name="Aboutpage_6">About our peer-to-peer network</string>
     <string name="Aboutpage_8">used libraries:</string>
 
     <string name="AddFriendActivity_3">Invalid peer ID</string>
@@ -466,7 +466,7 @@
     <!-- Layout texts -->
     <!-- Layout texts -->
     <!-- Layout texts -->
-    <string name="layout___toxid">Peer ID (Tox)</string>
+    <string name="layout___toxid">Xyool Connect ID</string>
     <string name="layout___group_name">Group Name</string>
     <string name="layout___group_id">Group ID</string>
     <string name="layout___scan_qr_code">scan QR Code</string>
@@ -508,13 +508,13 @@
     <string name="layout___test_notification_sound">test Notification sound</string>
     <string name="layout___test_ringtone_sound">test Ringtone sound</string>
     <string name="layout___iobrowser_start">browse encrypted Storage</string>
-    <string name="layout___toxprofiler_start">Tox Profiler</string>
+    <string name="layout___toxprofiler_start">Connection diagnostics</string>
     <string name="layout___audio_roundtrip_test_start">Audio Latency Test</string>
     <string name="layout___report_issue">report a bug or issue</string>
-    <string name="layout___export_tox_savedata_unsecure">export tox savedata *unsecure*</string>
-    <string name="layout___export_tox_encrypted_files_unsecure">export encrypted files *unsecure*</string>
-    <string name="layout___export_tox_encrypted_chats_unsecure">export encrypted chats *unsecure*</string>
-    <string name="layout___im_port_tox_savadata_unsecure">IM-port TOX SAVADATA *UNSECURE*</string>
+    <string name="layout___export_tox_savedata_unsecure">Export Xyool identity data (unencrypted)</string>
+    <string name="layout___export_tox_encrypted_files_unsecure">Export files (unencrypted)</string>
+    <string name="layout___export_tox_encrypted_chats_unsecure">Export chats (unencrypted)</string>
+    <string name="layout___im_port_tox_savadata_unsecure">Import Xyool identity data (unencrypted)</string>
     <string name="layout___share_crash_report">share crash report (!may contain private data!)</string>
     <string name="layout___reveal_passwords">reveal passwords and export</string>
     <string name="layout___delete_group_system_msgs">Delete System Messages</string>
