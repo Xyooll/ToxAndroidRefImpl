@@ -75,6 +75,18 @@ def main():
     require(expected <= set(providers),
             "providers migrated with package to support Android file sharing")
 
+    # Fail CI if Android component export scopes regress after the build-time rebrand.
+    provider_nodes = {x.get(A + "name"): x for x in app.findall("provider")}
+    for name in (".StdContentProvider", ".Ext2ContentProvider", ".IOCipherContentProvider"):
+        provider = provider_nodes.get(name)
+        require(provider is not None and provider.get(A + "exported") == "false" and
+                provider.get(A + "grantUriPermissions") == "true",
+                name + " private provider with explicit URI grants")
+    receiver_nodes = {x.get(A + "name"): x for x in app.findall("receiver")}
+    wakeup = receiver_nodes.get(".WakeupAlarmReceiver")
+    require(wakeup is not None and wakeup.get(A + "exported") == "false",
+            "internal wakeup alarm receiver cannot be triggered by external apps")
+
     ui = ET.parse(MAIN / "res/layout/activity_main.xml").getroot()
     ids = {x.get(A + "id") for x in ui.iter()}
     require({"@+id/xyool_toolbar_mark", "@+id/spinner_own_status",
