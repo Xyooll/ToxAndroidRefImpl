@@ -25,9 +25,14 @@ def main():
 
     colors = ET.parse(BASE / "res/values/colors.xml").getroot()
     palette = {x.attrib.get("name"): (x.text or "").upper() for x in colors if x.tag == "color"}
-    assert palette["colorPrimary"] == "#12334A"
-    assert palette["colorPrimaryDark"] == "#081825"
-    assert palette["colorAccent"] == "#14B8A6"
+    # Keep the CI contract aligned with the actual Xyool dark/violet design.
+    assert palette["colorPrimary"] == "#17152F"
+    assert palette["colorPrimaryDark"] == "#090A18"
+    assert palette["colorAccent"] == "#9865F6"
+    assert palette["xyool_surface"] == "#14172B"
+    assert palette["xyool_card"] == "#20233D"
+    assert palette["xyool_text_primary"] == "#F6F3FF"
+    assert palette["xyool_text_secondary"] == "#B8B5D1"
 
     mark = ET.parse(BASE / "res/drawable/xyool_connect_mark.xml").getroot()
     assert mark.tag == "vector", "Keep Xyool launcher mark vector"

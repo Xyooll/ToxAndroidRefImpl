@@ -43,6 +43,7 @@ import static androidx.test.core.graphics.BitmapStorage.writeToTestStorage;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -279,32 +280,12 @@ public class StartExportImportTest
         onView(withText(R.string.MainActivity_maint)).perform(click());
         wait_(1, "for Maintenance to show");
 
-        //onView(withId(R.id.buttons_scroll_view))
-        //        .perform(repeatedlyUntil(swipeUp(),
-        //          hasDescendant(withText(R.string.layout___export_tox_savedata_unsecure)),
-        //                                                            10));
-
-        onView(withId(R.id.buttons_scroll_view)).perform(custom_swipeUp());
-        try
-        {
-            onView(withId(R.id.button_export_savedata)).check(matches(isDisplayed())).perform(click());
-            Log.i(TAG, "exporting tox save file:01");
-        }
-        catch (Exception e)
-        {
-            onView(withId(R.id.buttons_scroll_view)).perform(custom_swipeUp());
-            try
-            {
-                onView(withId(R.id.button_export_savedata)).check(matches(isDisplayed())).perform(click());
-                Log.i(TAG, "exporting tox save file:02");
-            }
-            catch (Exception e2)
-            {
-                onView(withId(R.id.buttons_scroll_view)).perform(custom_swipeUp());
-                onView(withId(R.id.button_export_savedata)).check(matches(isDisplayed())).perform(click());
-                Log.i(TAG, "exporting tox save file:03");
-            }
-        }
+        // Scroll the actual target into view instead of relying on repeated swipes.
+        onView(withId(R.id.button_export_savedata))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()))
+                .perform(click());
+        Log.i(TAG, "exporting tox save file");
 
         screenshot("005");
         dialog_press_positive(3);

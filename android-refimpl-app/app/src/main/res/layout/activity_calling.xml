@@ -4,7 +4,7 @@
     android:id="@+id/calling_activity_top_viewgroup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@color/xyool_surface"
     android:orientation="vertical"
     tools:context="com.zoffcc.applications.trifa.CallingActivity">
 
@@ -51,7 +51,7 @@
                 android:gravity="center_vertical"
                 android:text="xxxxxxxx"
                 android:textAlignment="center"
-                android:textColor="@color/md_grey_400"
+                android:textColor="@color/xyool_text_secondary"
                 android:textSize="18sp" />
 
             <FrameLayout

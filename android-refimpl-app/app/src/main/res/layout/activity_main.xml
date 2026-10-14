@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/xyool_surface">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -35,7 +36,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="6dp"
             android:text="@string/app_name"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/xyool_text_primary"
             android:textSize="17sp"
             android:textStyle="bold" />
 
@@ -58,7 +59,7 @@
             android:id="@+id/waiting_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/md_white_1000"
+            android:background="@color/xyool_surface"
             android:visibility="visible">
 
             <TextView
@@ -67,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="40dp"
-                android:background="@color/md_white_1000"
+                android:background="@color/xyool_surface"
                 android:gravity="center"
                 android:text="@string/layout___waiting_for_orbot"
                 android:textSize="20sp"
@@ -112,7 +113,7 @@
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
                             android:text="..."
-                            android:textColor="@color/md_black_1000"
+                            android:textColor="@color/xyool_text_primary"
                             android:textSize="12sp"
                             android:visibility="visible" />
 
@@ -180,7 +181,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="off"
-                                android:textColor="@color/md_black_1000"
+                                android:textColor="@color/xyool_text_primary"
                                 android:textSize="10sp"
                                 android:textStyle="bold"
                                 android:gravity="center" />
@@ -210,7 +211,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="?"
-                                android:textColor="@color/md_black_1000"
+                                android:textColor="@color/xyool_text_primary"
                                 android:textSize="10sp"
                                 android:textStyle="bold"
                                 android:gravity="center"
@@ -240,7 +241,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="?"
-                                android:textColor="@color/md_black_1000"
+                                android:textColor="@color/xyool_text_primary"
                                 android:textSize="10sp"
                                 android:textStyle="bold"
                                 android:gravity="center"

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/xyool_surface">
 
     <!--android:background="@android:color/transparent"-->
 
@@ -48,12 +49,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@null"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="18dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/md_grey_300_seperator"
+                android:background="@color/xyool_card"
                 android:orientation="vertical"
                 android:padding="10dp">
 
